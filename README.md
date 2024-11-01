@@ -1,4 +1,4 @@
-# Custom Chart Example
+# TPF Organization Chart
 
 ## Overview
 The TPF Organization Chart module provides a flexible and interactive way to visualize hierarchical data from taxonomy terms using different chart types. It supports three visualization modes:
@@ -23,8 +23,8 @@ The TPF Organization Chart module provides a flexible and interactive way to vis
 
 ## Installation
 1. Install the module as you would normally install a Drupal module.
-2. Configure permissions at `/admin/people/permissions#module-custom_chart_example`.
-3. Configure the module settings at `/admin/config/content/custom-chart`.
+2. Configure permissions at `/admin/people/permissions#module-tpf_organization_chart`.
+3. Configure the module settings at `/admin/config/content/tpf-organization-chart`.
 
 ## Configuration
 ### Basic Settings
@@ -36,7 +36,8 @@ The TPF Organization Chart module provides a flexible and interactive way to vis
 - **Debug Mode**: Toggle JSON data display for debugging
 
 ### Permissions
-- `access custom chart`: Controls who can view the organization chart page
+- `access tpf organization chart`: Controls who can view the organization chart page
+- `administer tpf organization chart`: Controls who can configure the module settings
 
 ## Usage
 ### Viewing the Chart
@@ -71,11 +72,11 @@ The module comes with default styling that can be customized through:
 
 ## Development
 ### Key Files
-- `src/Controller/CustomChartController.php`: Main controller logic
-- `src/Form/CustomChartConfigForm.php`: Configuration form
-- `js/custom_chart.js`: JavaScript behaviors
+- `src/Controller/OrganizationChartController.php`: Main controller logic
+- `src/Form/OrganizationChartSettingsForm.php`: Configuration form
+- `js/organization-chart.js`: JavaScript behaviors
 - `js/chart-config.js`: Chart configurations
-- `css/custom_chart.css`: Default styling
+- `css/tpf_organization_chart.css`: Default styling
 - `templates/`: Twig templates for different views
 
 ### Extending
@@ -100,4 +101,4 @@ The module is designed to be extensible through:
 This module is licensed under GPL 2.0 or later.
 
 ## Support
-For bug reports and feature requests, please use the project's issue queue. 
+For bug reports and feature requests, please use the project's issue queue.
