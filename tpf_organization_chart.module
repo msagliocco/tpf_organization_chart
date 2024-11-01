@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * TPF Organization Chart module file.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function tpf_organization_chart_help($route_name, $route_match) {
+  switch ($route_name) {
+    case 'help.page.tpf_organization_chart':
+      return '<p>' . t('Provides an organization chart functionality.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tpf_organization_chart_theme($existing, $type, $theme, $path) {
+  return [
+    'tpf_organization_chart' => [
+      'variables' => [
+        'root_options' => [],
+        'organigram_data' => [],
+        'debug_mode' => FALSE,
+        'chart_type' => 'treegraph',
+      ],
+    ],
+    'tpf_organization_chart_table' => [
+      'variables' => [
+        'organigram_data' => [],
+      ],
+    ],
+  ];
+}

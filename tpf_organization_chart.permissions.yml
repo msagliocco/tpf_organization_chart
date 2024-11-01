@@ -1,0 +1,8 @@
+access tpf organization chart:
+  title: 'Access TPF Organization Chart'
+  description: 'View the TPF organization chart.'
+
+administer tpf organization chart:
+  title: 'Administer TPF Organization Chart'
+  description: 'Configure TPF organization chart settings.'
+  restrict access: TRUE

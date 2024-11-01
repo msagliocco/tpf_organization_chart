@@ -1,0 +1,6 @@
+name: TPF Organization Chart
+type: module
+description: 'Provides organization chart functionality.'
+package: TPF
+core_version_requirement: ^9 || ^10
+configure: tpf_organization_chart.settings

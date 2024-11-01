@@ -1,0 +1,15 @@
+tpf_organization_chart.chart:
+  path: '/organization-chart'
+  defaults:
+    _controller: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::content'
+    _title_callback: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::getTitle'
+  requirements:
+    _permission: 'access tpf organization chart'
+
+tpf_organization_chart.settings:
+  path: '/admin/config/content/tpf-organization-chart'
+  defaults:
+    _form: '\Drupal\tpf_organization_chart\Form\OrganizationChartSettingsForm'
+    _title: 'TPF Organization Chart Settings'
+  requirements:
+    _permission: 'administer tpf organization chart'

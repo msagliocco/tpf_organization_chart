@@ -1,0 +1,6 @@
+tpf_organization_chart.admin:
+  title: 'TPF Organization Chart'
+  description: 'Configure TPF Organization Chart settings'
+  parent: system.admin_config_content
+  route_name: tpf_organization_chart.settings
+  weight: 100

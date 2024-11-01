@@ -1,0 +1,21 @@
+tpf_organization_chart:
+  version: 1.x
+  js:
+    https://code.highcharts.com/highcharts.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/sankey.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/organization.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/exporting.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/accessibility.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/treemap.js: { type: external, minified: true }
+    https://code.highcharts.com/modules/treegraph.js: { type: external, minified: true }
+    js/utils.js: {}
+    js/chart-config.js: {}
+    js/organization-chart.js: {}
+  css:
+    theme:
+      css/tpf_organization_chart.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css: { type: external, minified: true }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once

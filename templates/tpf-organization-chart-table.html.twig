@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a TPF organization chart table view.
+ *
+ * Available variables:
+ * - organigram_data: The data for the organization chart table.
+ */
+#}
+<div class="tpf-organization-chart-table">
+  {% macro render_children(children, level) %}
+    {% for child in children %}
+      <div class="card mb-4 ms-{{ level * 3 }}">
+        <div class="card-header d-flex justify-content-between align-items-center py-2">
+          <div class="d-flex align-items-center">
+            {% if child.logo %}
+              <img src="{{ child.logo }}" alt="{{ child.name }} logo" width="{{ 50 - level * 5 }}" height="{{ 50 - level * 5 }}" class="me-3">
+            {% endif %}
+            <div>
+              <h5 class="card-title mb-0">{{ child.name }}</h5>
+              {% if child.description %}
+                <p class="card-text small text-muted mt-1">{{ child.description }}</p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': child.id}) }}" class="btn btn-outline-primary btn-sm me-2">
+              {{ 'View More'|t }}
+              <i class="bi bi-box-arrow-up-right ms-1"></i>
+            </a>
+            {% if child.children %}
+              <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ child.id }}" aria-expanded="false" aria-controls="collapse-{{ child.id }}">
+                <i class="bi bi-chevron-down"></i>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+        {% if child.children %}
+          <div class="collapse" id="collapse-{{ child.id }}">
+            <div class="card-body">
+              {{ _self.render_children(child.children, level + 1) }}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endmacro %}
+
+  {% for unit in organigram_data %}
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center py-2 bg-primary text-white">
+        <div class="d-flex align-items-center">
+          {% if unit.logo %}
+            <img src="{{ unit.logo }}" alt="{{ unit.name }} logo" width="50" height="50" class="me-3">
+          {% endif %}
+          <div>
+            <h4 class="card-title mb-0">{{ unit.name }}</h4>
+            {% if unit.description %}
+              <p class="card-text small mt-1">{{ unit.description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if unit.children %}
+      <div class="collapse show" id="collapse-root-{{ unit.id }}">
+        {{ _self.render_children(unit.children, 1) }}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div> 

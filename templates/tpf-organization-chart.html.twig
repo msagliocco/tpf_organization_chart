@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a TPF organization chart.
+ *
+ * Available variables:
+ * - root_options: The root options for the chart.
+ * - organigram_data: The data for the organization chart.
+ * - debug_mode: Boolean indicating if debug mode is enabled.
+ * - chart_type: The type of chart to display.
+ */
+#}
+<div class="tpf-organization-chart" data-chart-type="{{ chart_type }}">
+  <div>
+    <label for="root-selector">{{ 'Select Root'|t }}:</label>
+    <select id="root-selector">
+      {% for tid, name in root_options %}
+        <option value="{{ tid }}">{{ name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="treegraph-container" class="{{ chart_type }}-chart" style="width: 100%; height: 800px;"></div>
+
+  {% if debug_mode %}
+    <div>
+      <h3>{{ 'Organigram Data'|t }}:</h3>
+      <pre>{{ organigram_data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </div>
+  {% endif %}
+</div>
