@@ -1,0 +1,20 @@
+{
+    "name": "msagliocco/tpf_organization_chart",
+    "type": "drupal-module",
+    "description": "Provides a flexible and interactive way to visualize hierarchical data from taxonomy terms using different chart types.",
+    "homepage": "https://github.com/msagliocco/tpf_organization_chart",
+    "authors": [
+        {
+            "name": "msagliocco",
+            "homepage": "https://github.com/msagliocco"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/msagliocco/tpf_organization_chart/issues",
+        "source": "https://github.com/msagliocco/tpf_organization_chart"
+    },
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/core": "^9 || ^10"
+    }
+} 
