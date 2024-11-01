@@ -1,7 +1,7 @@
 # Custom Chart Example
 
 ## Overview
-The Custom Chart Example module provides a flexible and interactive way to visualize hierarchical data from taxonomy terms using different chart types. It supports three visualization modes:
+The TPF Organization Chart module provides a flexible and interactive way to visualize hierarchical data from taxonomy terms using different chart types. It supports three visualization modes:
 - Treegraph Chart
 - Organization Chart
 - Table View with collapsible sections
