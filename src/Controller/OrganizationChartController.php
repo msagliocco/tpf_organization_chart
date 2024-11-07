@@ -273,14 +273,50 @@ class OrganizationChartController extends ControllerBase {
    *   A render array for the tree view page.
    */
   public function treeView() {
-    return [
-      '#theme' => 'tpf_organization_tree_view',
+    if (!$this->currentUser()->hasPermission('access tpf organization chart')) {
+      throw new AccessDeniedHttpException();
+    }
+
+    $config = $this->config('tpf_organization_chart.settings');
+    $vid = $config->get('vocabulary');
+    $hierarchy_field = $config->get('hierarchy_field');
+    $debug_mode = $config->get('debug_mode');
+
+    // Force chart type to treegraph for this view
+    $chart_type = 'treegraph';
+
+    $organigram_data = $this->getOrganigramData($vid, $hierarchy_field);
+    $root_options = $this->getRootOptions($organigram_data);
+
+    $build = [
+      '#theme' => 'tpf_organization_chart',  // Reuse existing template
+      '#root_options' => $root_options,
+      '#organigram_data' => $organigram_data,
+      '#debug_mode' => $debug_mode,
+      '#chart_type' => $chart_type,
       '#attached' => [
         'library' => [
           'tpf_organization_chart/tpf_organization_chart',
         ],
+        'drupalSettings' => [
+          'tpfOrganizationChart' => [
+            'organigramData' => $organigram_data,
+            'chartType' => $chart_type,
+            'labels' => [
+              'selectRoot' => $this->t('Select Root'),
+              'organigramData' => $this->t('Organigram Data'),
+            ],
+          ],
+        ],
       ],
     ];
+
+    // Add cache metadata
+    $cache_metadata = new CacheableMetadata();
+    $cache_metadata->addCacheTags(['tpf_organization_chart', 'taxonomy_term_list:' . $vid]);
+    $cache_metadata->applyTo($build);
+
+    return $build;
   }
 
 } 
