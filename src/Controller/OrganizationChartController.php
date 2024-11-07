@@ -192,4 +192,95 @@ class OrganizationChartController extends ControllerBase {
     return $config->get('page_title') ?: $this->t('Organization Chart');
   }
 
+  /**
+   * Prepares the term data for display.
+   */
+  protected function prepareTermData($term) {
+    // Get the description value directly from the field
+    $description = '';
+    if (!$term->get('description')->isEmpty()) {
+      $description = $term->get('description')->value;
+    }
+
+    return [
+      'id' => $term->id(),
+      'name' => $term->label(),
+      'description' => $description,
+      'url' => $term->toUrl()->toString(),
+      'image' => $this->getTermImage($term),
+      'weight' => $term->getWeight(),
+    ];
+  }
+
+  /**
+   * Displays the organization page.
+   *
+   * @return array
+   *   A render array for the organization page.
+   */
+  public function organizationPage() {
+    return [
+      '#theme' => 'tpf_organization_page',
+      '#attached' => [
+        'library' => [
+          'tpf_organization_chart/tpf_organization_chart',
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * Displays the table view page.
+   *
+   * @return array
+   *   A render array for the table view page.
+   */
+  public function tableView() {
+    if (!$this->currentUser()->hasPermission('access tpf organization chart')) {
+      throw new AccessDeniedHttpException();
+    }
+
+    $config = $this->config('tpf_organization_chart.settings');
+    $vid = $config->get('vocabulary');
+    $hierarchy_field = $config->get('hierarchy_field');
+    
+    // Reuse existing data preparation methods
+    $organigram_data = $this->getOrganigramData($vid, $hierarchy_field);
+    $table_data = $this->buildTableData($organigram_data);
+
+    $build = [
+      '#theme' => 'tpf_organization_chart_table',
+      '#organigram_data' => $table_data,
+      '#attached' => [
+        'library' => [
+          'tpf_organization_chart/tpf_organization_chart',
+        ],
+      ],
+    ];
+
+    // Add cache metadata
+    $cache_metadata = new CacheableMetadata();
+    $cache_metadata->addCacheTags(['tpf_organization_chart', 'taxonomy_term_list:' . $vid]);
+    $cache_metadata->applyTo($build);
+
+    return $build;
+  }
+
+  /**
+   * Displays the tree view page.
+   *
+   * @return array
+   *   A render array for the tree view page.
+   */
+  public function treeView() {
+    return [
+      '#theme' => 'tpf_organization_tree_view',
+      '#attached' => [
+        'library' => [
+          'tpf_organization_chart/tpf_organization_chart',
+        ],
+      ],
+    ];
+  }
+
 } 

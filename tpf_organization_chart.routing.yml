@@ -2,7 +2,31 @@ tpf_organization_chart.chart:
   path: '/organization-chart'
   defaults:
     _controller: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::content'
-    _title_callback: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::getTitle'
+    _title: 'Organization Chart'
+  requirements:
+    _permission: 'access tpf organization chart'
+
+tpf_organization_chart.organization:
+  path: '/organization'
+  defaults:
+    _controller: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::organizationPage'
+    _title: 'Organization'
+  requirements:
+    _permission: 'access tpf organization chart'
+
+tpf_organization_chart.organization_table:
+  path: '/organization/table'
+  defaults:
+    _controller: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::tableView'
+    _title: 'Organization Table'
+  requirements:
+    _permission: 'access tpf organization chart'
+
+tpf_organization_chart.organization_treeview:
+  path: '/organization/treeview'
+  defaults:
+    _controller: '\Drupal\tpf_organization_chart\Controller\OrganizationChartController::treeView'
+    _title: 'Organization Tree View'
   requirements:
     _permission: 'access tpf organization chart'
 

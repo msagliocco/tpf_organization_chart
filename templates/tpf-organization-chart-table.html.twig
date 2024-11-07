@@ -19,7 +19,7 @@
             <div>
               <h5 class="card-title mb-0">{{ child.name }}</h5>
               {% if child.description %}
-                <p class="card-text small text-muted mt-1">{{ child.description }}</p>
+                <p class="card-text small text-muted mt-1">{{ child.description|raw }}</p>
               {% endif %}
             </div>
           </div>
@@ -56,7 +56,7 @@
           <div>
             <h4 class="card-title mb-0">{{ unit.name }}</h4>
             {% if unit.description %}
-              <p class="card-text small mt-1">{{ unit.description }}</p>
+              <p class="card-text small mt-1">{{ unit.description|raw }}</p>
             {% endif %}
           </div>
         </div>
