@@ -18,6 +18,42 @@
           });
         });
 
+        // Toggle all button
+        once('toggle-all-button', '.toggle-all-btn', context).forEach(button => {
+          button.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            const textSpan = this.querySelector('.toggle-text');
+            const isExpanding = icon.classList.contains('bi-chevron-down');
+            
+            // Toggle button state
+            icon.classList.toggle('bi-chevron-down');
+            icon.classList.toggle('bi-chevron-up');
+            textSpan.textContent = isExpanding ? Drupal.t('Collapse All') : Drupal.t('Expand All');
+            
+            // Toggle all collapse elements
+            const collapseElements = document.querySelectorAll('.collapse');
+            collapseElements.forEach(element => {
+              if (isExpanding) {
+                element.classList.add('show');
+                // Update individual button icons
+                const btn = element.previousElementSibling?.querySelector('[data-bs-toggle="collapse"] i');
+                if (btn) {
+                  btn.classList.remove('bi-chevron-down');
+                  btn.classList.add('bi-chevron-up');
+                }
+              } else {
+                element.classList.remove('show');
+                // Update individual button icons
+                const btn = element.previousElementSibling?.querySelector('[data-bs-toggle="collapse"] i');
+                if (btn) {
+                  btn.classList.add('bi-chevron-down');
+                  btn.classList.remove('bi-chevron-up');
+                }
+              }
+            });
+          });
+        });
+
         // If this is the table view route, we can return early
         if (currentPath === '/organization/table') {
           return;
