@@ -8,21 +8,14 @@
  */
 #}
 <div class="organization-table-view">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <button type="button" class="btn btn-outline-secondary toggle-all-btn">
-      <i class="bi bi-chevron-down me-2"></i>
-      <span class="toggle-text">{{ 'Expand All'|t }}</span>
-    </button>
-    
-    <div class="view-switcher">
-      <div class="btn-group" role="group" aria-label="{{ 'View switcher'|t }}">
-        <a href="/organization/table" class="btn btn-primary active">
-          <i class="bi bi-table"></i> {{ 'Table'|t }}
-        </a>
-        <a href="/organization/treeview" class="btn btn-outline-primary">
-          <i class="bi bi-diagram-3"></i> {{ 'Tree'|t }}
-        </a>
-      </div>
+  <div class="view-switcher d-flex justify-content-end mb-4">
+    <div class="btn-group" role="group" aria-label="{{ 'View switcher'|t }}">
+      <a href="/organization/table" class="btn btn-primary active">
+        <i class="bi bi-table"></i> {{ 'Table'|t }}
+      </a>
+      <a href="/organization/treeview" class="btn btn-outline-primary">
+        <i class="bi bi-diagram-3"></i> {{ 'Tree'|t }}
+      </a>
     </div>
   </div>
   {{ content }}
