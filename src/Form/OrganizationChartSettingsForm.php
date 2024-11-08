@@ -105,20 +105,46 @@ class OrganizationChartSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('debug_mode'),
     ];
 
+    $vocabulary_id = $config->get('vocabulary');
+
+    $form['full_name_field'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Full Name Field'),
+      '#description' => $this->t('Select the field to use for displaying the full name.'),
+      '#options' => $this->getFieldOptions($vocabulary_id),
+      '#default_value' => $config->get('full_name_field'),
+      '#empty_option' => $this->t('- None -'),
+      '#states' => [
+        'visible' => [
+          ':input[name="vocabulary"]' => ['!value' => ''],
+        ],
+      ],
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
   /**
-   * Get field options for a given vocabulary.
+   * Gets the field options for a vocabulary.
+   *
+   * @param string|null $vocabulary_id
+   *   The vocabulary ID.
+   *
+   * @return array
+   *   An array of field options.
    */
-  private function getFieldOptions($vid) {
-    $fields = \Drupal::entityTypeManager()
-      ->getStorage('field_config')
-      ->loadByProperties(['entity_type' => 'taxonomy_term', 'bundle' => $vid]);
-
+  protected function getFieldOptions($vocabulary_id = NULL) {
     $options = [];
-    foreach ($fields as $field) {
-      $options[$field->getName()] = $field->getLabel();
+    
+    if (!$vocabulary_id) {
+      $vocabulary_id = $this->config('tpf_organization_chart.settings')->get('vocabulary');
+    }
+
+    if ($vocabulary_id) {
+      $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('taxonomy_term', $vocabulary_id);
+      foreach ($fields as $field_name => $field) {
+        $options[$field_name] = $field->getLabel();
+      }
     }
 
     return $options;
@@ -155,16 +181,17 @@ class OrganizationChartSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
-
     $this->config('tpf_organization_chart.settings')
-      ->set('page_title', $form_state->getValue('page_title'))
-      ->set('chart_type', $form_state->getValue('chart_type'))
       ->set('vocabulary', $form_state->getValue('vocabulary'))
       ->set('hierarchy_field', $form_state->getValue('hierarchy_field'))
       ->set('logo_field', $form_state->getValue('logo_field'))
       ->set('debug_mode', $form_state->getValue('debug_mode'))
+      ->set('chart_type', $form_state->getValue('chart_type'))
+      ->set('page_title', $form_state->getValue('page_title'))
+      ->set('full_name_field', $form_state->getValue('full_name_field'))
       ->save();
+
+    parent::submitForm($form, $form_state);
 
     // Invalidate cache tags
     Cache::invalidateTags(['tpf_organization_chart']);

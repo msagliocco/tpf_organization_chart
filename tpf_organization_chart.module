@@ -39,10 +39,14 @@ function tpf_organization_chart_theme($existing, $type, $theme, $path) {
       'variables' => [],
     ],
     'tpf_organization_table_view' => [
-      'variables' => [],
+      'variables' => [
+        'content' => NULL,
+      ],
     ],
     'tpf_organization_tree_view' => [
-      'variables' => [],
+      'variables' => [
+        'content' => NULL,
+      ],
     ],
   ];
 }

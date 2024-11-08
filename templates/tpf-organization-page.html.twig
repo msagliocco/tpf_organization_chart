@@ -7,6 +7,25 @@
  * - none at this point
  */
 #}
-<div class="organization-page">
-  {# Empty for now, will be populated as needed #}
+<div class="organization-page pb-5 mb-5">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+      <h2 class="mb-4">{{ 'Choose Visualization Type'|t }}</h2>
+      <p class="lead mb-5">{{ 'Select how you would like to view the organization structure'|t }}</p>
+      
+      <div class="d-flex justify-content-center gap-4">
+        <a href="{{ path('tpf_organization_chart.organization_table') }}" class="btn btn-primary btn-lg">
+          <i class="bi bi-table fs-4 d-block mb-2"></i>
+          {{ 'Table View'|t }}
+          <small class="d-block text-light">{{ 'Hierarchical table layout'|t }}</small>
+        </a>
+        
+        <a href="{{ path('tpf_organization_chart.organization_treeview') }}" class="btn btn-primary btn-lg">
+          <i class="bi bi-diagram-3 fs-4 d-block mb-2"></i>
+          {{ 'Tree View'|t }}
+          <small class="d-block text-light">{{ 'Interactive tree diagram'|t }}</small>
+        </a>
+      </div>
+    </div>
+  </div>
 </div> 

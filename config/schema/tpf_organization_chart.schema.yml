@@ -1,0 +1,25 @@
+tpf_organization_chart.settings:
+  type: config_object
+  label: 'TPF Organization Chart settings'
+  mapping:
+    vocabulary:
+      type: string
+      label: 'Vocabulary'
+    hierarchy_field:
+      type: string
+      label: 'Hierarchy Field'
+    logo_field:
+      type: string
+      label: 'Logo Field'
+    debug_mode:
+      type: boolean
+      label: 'Debug Mode'
+    chart_type:
+      type: string
+      label: 'Chart Type'
+    page_title:
+      type: string
+      label: 'Page Title'
+    full_name_field:
+      type: string
+      label: 'Full Name Field' 

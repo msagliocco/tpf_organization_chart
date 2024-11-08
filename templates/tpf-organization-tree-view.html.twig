@@ -4,9 +4,19 @@
  * Default theme implementation for the organization tree view page.
  *
  * Available variables:
- * - none at this point
+ * - content: The tree view content
  */
 #}
 <div class="organization-tree-view">
-  {# Empty for now, will be populated as needed #}
+  <div class="view-switcher d-flex justify-content-end mb-4">
+    <div class="btn-group" role="group" aria-label="{{ 'View switcher'|t }}">
+      <a href="/organization/table" class="btn btn-outline-primary">
+        <i class="bi bi-table"></i> {{ 'Table'|t }}
+      </a>
+      <a href="/organization/treeview" class="btn btn-primary active">
+        <i class="bi bi-diagram-3"></i> {{ 'Tree'|t }}
+      </a>
+    </div>
+  </div>
+  {{ content }}
 </div> 

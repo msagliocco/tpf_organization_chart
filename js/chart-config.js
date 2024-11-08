@@ -18,7 +18,6 @@
             }
           },
           dataLabels: {
-            format: '{point.name}',
             style: {
               width: '120px',
               color: 'black',

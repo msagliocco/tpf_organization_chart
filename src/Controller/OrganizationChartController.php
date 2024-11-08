@@ -100,6 +100,7 @@ class OrganizationChartController extends ControllerBase {
     $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree($vid);
     $config = $this->config('tpf_organization_chart.settings');
     $logo_field = $config->get('logo_field');
+    $full_name_field = $config->get('full_name_field');
 
     $data = [];
     foreach ($terms as $term) {
@@ -114,13 +115,19 @@ class OrganizationChartController extends ControllerBase {
         $logo_url = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
       }
 
+      // Get full name from configured field
+      $full_name = '';
+      if ($full_name_field && $term_entity->hasField($full_name_field) && !$term_entity->get($full_name_field)->isEmpty()) {
+        $full_name = $term_entity->get($full_name_field)->value;
+      }
+
       $data[$term->tid] = [
         'id' => (string) $term->tid,
         'name' => htmlspecialchars($term->name),
         'parent' => (string) $parent_id,
         'depth' => null,
         'logo' => $logo_url ? htmlspecialchars($logo_url) : null,
-        'description' => $term_entity->getDescription() ? htmlspecialchars(substr($term_entity->getDescription(), 0, 100)) . '...' : null,
+        'full_name' => $full_name,
       ];
     }
 
@@ -244,13 +251,17 @@ class OrganizationChartController extends ControllerBase {
     $vid = $config->get('vocabulary');
     $hierarchy_field = $config->get('hierarchy_field');
     
-    // Reuse existing data preparation methods
     $organigram_data = $this->getOrganigramData($vid, $hierarchy_field);
     $table_data = $this->buildTableData($organigram_data);
 
-    $build = [
+    $content = [
       '#theme' => 'tpf_organization_chart_table',
       '#organigram_data' => $table_data,
+    ];
+
+    $build = [
+      '#theme' => 'tpf_organization_table_view',
+      '#content' => $content,
       '#attached' => [
         'library' => [
           'tpf_organization_chart/tpf_organization_chart',
@@ -258,7 +269,6 @@ class OrganizationChartController extends ControllerBase {
       ],
     ];
 
-    // Add cache metadata
     $cache_metadata = new CacheableMetadata();
     $cache_metadata->addCacheTags(['tpf_organization_chart', 'taxonomy_term_list:' . $vid]);
     $cache_metadata->applyTo($build);
@@ -281,23 +291,18 @@ class OrganizationChartController extends ControllerBase {
     $vid = $config->get('vocabulary');
     $hierarchy_field = $config->get('hierarchy_field');
     $debug_mode = $config->get('debug_mode');
-
-    // Force chart type to treegraph for this view
     $chart_type = 'treegraph';
 
     $organigram_data = $this->getOrganigramData($vid, $hierarchy_field);
     $root_options = $this->getRootOptions($organigram_data);
 
-    $build = [
-      '#theme' => 'tpf_organization_chart',  // Reuse existing template
+    $content = [
+      '#theme' => 'tpf_organization_chart',
       '#root_options' => $root_options,
       '#organigram_data' => $organigram_data,
       '#debug_mode' => $debug_mode,
       '#chart_type' => $chart_type,
       '#attached' => [
-        'library' => [
-          'tpf_organization_chart/tpf_organization_chart',
-        ],
         'drupalSettings' => [
           'tpfOrganizationChart' => [
             'organigramData' => $organigram_data,
@@ -311,7 +316,16 @@ class OrganizationChartController extends ControllerBase {
       ],
     ];
 
-    // Add cache metadata
+    $build = [
+      '#theme' => 'tpf_organization_tree_view',
+      '#content' => $content,
+      '#attached' => [
+        'library' => [
+          'tpf_organization_chart/tpf_organization_chart',
+        ],
+      ],
+    ];
+
     $cache_metadata = new CacheableMetadata();
     $cache_metadata->addCacheTags(['tpf_organization_chart', 'taxonomy_term_list:' . $vid]);
     $cache_metadata->applyTo($build);
